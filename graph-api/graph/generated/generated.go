@@ -407,7 +407,6 @@ input NewPost {
 }
 
 input NewComment {
-  UUID: String!
   Body: String!
   Name: String!
   PostId: String!
@@ -2583,14 +2582,6 @@ func (ec *executionContext) unmarshalInputNewComment(ctx context.Context, obj in
 
 	for k, v := range asMap {
 		switch k {
-		case "UUID":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("UUID"))
-			it.UUID, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "Body":
 			var err error
 

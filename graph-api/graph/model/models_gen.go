@@ -10,7 +10,6 @@ type Comment struct {
 }
 
 type NewComment struct {
-	UUID   string `json:"UUID"`
 	Body   string `json:"Body"`
 	Name   string `json:"Name"`
 	PostID string `json:"PostId"`

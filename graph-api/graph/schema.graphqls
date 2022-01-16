@@ -47,7 +47,6 @@ input NewPost {
 }
 
 input NewComment {
-  UUID: String!
   Body: String!
   Name: String!
   PostId: String!
