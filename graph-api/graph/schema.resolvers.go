@@ -5,16 +5,134 @@ package graph
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
-	"graphapi/graph/generated"
-	"graphapi/graph/model"
+	"io/ioutil"
+	"main/graph/generated"
+	"main/graph/model"
+	"net/http"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+const BaseUrl = "http://localhost:7000/api"
+const UsersEndpoint = "/users"
+const PostsEndpoint = "/posts"
+const CommentsEndpoint = "/comments"
+
+type UsersResponse struct {
+	Data []*model.User `json:"data"`
+}
+
+type UserResponse struct {
+	Data *model.User `json:"data"`
+}
+
+type PostsResponse struct {
+	Data []*model.Post `json:"data"`
+}
+
+type CommentsResponse struct {
+	Data []*model.Comment `json:"data"`
+}
+
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
+func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) CreateComment(ctx context.Context, input model.NewComment) (*model.Comment, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	response, err := http.Get(BaseUrl + UsersEndpoint)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var usersResponse UsersResponse
+	err = json.Unmarshal(body, &usersResponse)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return usersResponse.Data, nil
+}
+
+func (r *queryResolver) User(ctx context.Context, input string) (*model.User, error) {
+	response, err := http.Get(BaseUrl + UsersEndpoint + "/" + input)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var userResponse UserResponse
+	err = json.Unmarshal(body, &userResponse)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return userResponse.Data, nil
+}
+
+func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
+	response, err := http.Get(BaseUrl + PostsEndpoint)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var postResponse PostsResponse
+	fmt.Println("data: ", string(body))
+	err = json.Unmarshal(body, &postResponse)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return postResponse.Data, nil
+}
+
+func (r *queryResolver) Post(ctx context.Context, input string) (*model.Post, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Comments(ctx context.Context) ([]*model.Comment, error) {
+	response, err := http.Get(BaseUrl + CommentsEndpoint)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var commentsResponse CommentsResponse
+	fmt.Println("data: ", string(body))
+	err = json.Unmarshal(body, &commentsResponse)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return commentsResponse.Data, nil
+}
+
+func (r *queryResolver) Comment(ctx context.Context, input string) (*model.Comment, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

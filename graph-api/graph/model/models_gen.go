@@ -2,19 +2,44 @@
 
 package model
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type Comment struct {
+	UUID   string `json:"UUID"`
+	Body   string `json:"Body"`
+	Name   string `json:"Name"`
+	PostID string `json:"PostId"`
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
+type NewComment struct {
+	UUID   string `json:"UUID"`
+	Body   string `json:"Body"`
+	Name   string `json:"Name"`
+	PostID string `json:"PostId"`
+}
+
+type NewPost struct {
+	Body   string `json:"Body"`
+	Title  string `json:"Title"`
+	UserID string `json:"UserId"`
+}
+
+type NewUser struct {
+	FirstName string `json:"FirstName"`
+	LastName  string `json:"LastName"`
+	Email     string `json:"Email"`
+	Password  string `json:"Password"`
+}
+
+type Post struct {
+	UUID   string `json:"UUID"`
+	Body   string `json:"Body"`
+	Title  string `json:"Title"`
+	UserID string `json:"UserId"`
 }
 
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	UUID      string `json:"UUID"`
+	FirstName string `json:"FirstName"`
+	LastName  string `json:"LastName"`
+	Email     string `json:"Email"`
+	Password  string `json:"Password"`
 }

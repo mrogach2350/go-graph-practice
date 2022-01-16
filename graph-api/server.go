@@ -1,9 +1,9 @@
 package main
 
 import (
-	"graphapi/graph"
-	"graphapi/graph/generated"
 	"log"
+	"main/graph"
+	"main/graph/generated"
 	"net/http"
 	"os"
 

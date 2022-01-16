@@ -104,6 +104,12 @@ func main() {
 		context.JSON(http.StatusOK, gin.H{"data": users})
 	})
 
+	api.GET("/users/:uuid", func(context *gin.Context) {
+		var user User
+		db.Where("uuid = ?", context.Param("uuid")).First(&user)
+		context.JSON(http.StatusOK, gin.H{"data": user})
+	})
+
 	api.GET("/users/seed", func(context *gin.Context) {
 		var users []User
 		for i := 0; i < 10; i++ {
