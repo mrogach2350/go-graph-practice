@@ -26,7 +26,7 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input model.NewCom
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	response, err := http.Get(BaseUrl + UsersEndpoint)
+	response, err := http.Get(model.BaseUrl + model.UsersEndpoint)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -36,7 +36,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 		fmt.Println(err)
 	}
 
-	var usersResponse UsersResponse
+	var usersResponse model.UsersResponse
 	err = json.Unmarshal(body, &usersResponse)
 	if err != nil {
 		fmt.Println(err)
@@ -46,7 +46,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 }
 
 func (r *queryResolver) User(ctx context.Context, input string) (*model.User, error) {
-	response, err := http.Get(BaseUrl + UsersEndpoint + "/" + input)
+	response, err := http.Get(model.BaseUrl + model.UsersEndpoint + "/" + input)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -56,7 +56,7 @@ func (r *queryResolver) User(ctx context.Context, input string) (*model.User, er
 		fmt.Println(err)
 	}
 
-	var userResponse UserResponse
+	var userResponse model.UserResponse
 	err = json.Unmarshal(body, &userResponse)
 	if err != nil {
 		fmt.Println(err)
@@ -66,7 +66,7 @@ func (r *queryResolver) User(ctx context.Context, input string) (*model.User, er
 }
 
 func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
-	response, err := http.Get(BaseUrl + PostsEndpoint)
+	response, err := http.Get(model.BaseUrl + model.PostsEndpoint)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -76,7 +76,7 @@ func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
 		fmt.Println(err)
 	}
 
-	var postResponse PostsResponse
+	var postResponse model.PostsResponse
 	fmt.Println("data: ", string(body))
 	err = json.Unmarshal(body, &postResponse)
 	if err != nil {
@@ -91,7 +91,7 @@ func (r *queryResolver) Post(ctx context.Context, input string) (*model.Post, er
 }
 
 func (r *queryResolver) Comments(ctx context.Context) ([]*model.Comment, error) {
-	response, err := http.Get(BaseUrl + CommentsEndpoint)
+	response, err := http.Get(model.BaseUrl + model.CommentsEndpoint)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -101,7 +101,7 @@ func (r *queryResolver) Comments(ctx context.Context) ([]*model.Comment, error) 
 		fmt.Println(err)
 	}
 
-	var commentsResponse CommentsResponse
+	var commentsResponse model.CommentsResponse
 	fmt.Println("data: ", string(body))
 	err = json.Unmarshal(body, &commentsResponse)
 	if err != nil {
@@ -123,27 +123,3 @@ func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//    it when you're done.
-//  - You have helper methods in this file. Move them out to keep these resolver files clean.
-const BaseUrl = "http://localhost:7000/api"
-const UsersEndpoint = "/users"
-const PostsEndpoint = "/posts"
-const CommentsEndpoint = "/comments"
-
-type UsersResponse struct {
-	Data []*model.User `json:"data"`
-}
-type UserResponse struct {
-	Data *model.User `json:"data"`
-}
-type PostsResponse struct {
-	Data []*model.Post `json:"data"`
-}
-type CommentsResponse struct {
-	Data []*model.Comment `json:"data"`
-}
