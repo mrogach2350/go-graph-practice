@@ -1,4 +1,4 @@
-package constants
+package main
 
 import (
 	"log"
